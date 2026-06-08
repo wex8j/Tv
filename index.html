@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>غير جوك TV</title>
+  <meta name="description" content="📺 بث مباشر على مدار الساعة | 💬 دردشة حية مع المتابعين | 🎵 أغاني وطلبات على الهواء | 🎤 جو عراقي أصيل ما يفوتك — غير جوك TV" />
+
+  <meta property="og:title" content="غير جوك TV | بث مباشر" />
+  <meta property="og:description" content="📺 بث مباشر على مدار الساعة | 💬 دردشة حية مع المتابعين | 🎵 أغاني وطلبات على الهواء | 🎤 جو عراقي أصيل ما يفوتك" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="cover.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><rect width='120' height='120' rx='24' fill='%231a0a14'/><rect x='14' y='22' width='92' height='60' rx='10' fill='none' stroke='%23ff2d78' stroke-width='3'/><rect x='18' y='26' width='84' height='52' rx='7' fill='%23100008'/><polygon points='48,38 48,68 78,53' fill='%23ff2d78'/><rect x='48' y='87' width='24' height='6' rx='3' fill='%23ff2d78'/><circle cx='98' cy='30' r='5' fill='%23ff4f9a'/></svg>" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink:      #ff2d78;
+      --pink-soft: #ff4f9a;
+      --rose:      #c2185b;
+      --deep:      #0d0009;
+      --text:      #ffe4f0;
+      --muted:     rgba(200,100,140,0.5);
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--deep);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* شبكة الخلفية */
+    .bg-grid {
+      position: fixed; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(255,45,120,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,45,120,0.06) 1px, transparent 1px);
+      background-size: 55px 55px;
+      animation: gridMove 20s linear infinite;
+    }
+    @keyframes gridMove {
+      0%   { transform: perspective(500px) rotateX(18deg) translateY(0); }
+      100% { transform: perspective(500px) rotateX(18deg) translateY(55px); }
+    }
+
+    /* توهجات */
+    .orb1 {
+      position: fixed; border-radius: 50%; z-index: 0; pointer-events: none;
+      width: 450px; height: 450px; top: -200px; left: -180px;
+      background: radial-gradient(circle, rgba(255,45,120,0.18), transparent 70%);
+      filter: blur(80px);
+      animation: orbMove 11s ease-in-out infinite alternate;
+    }
+    .orb2 {
+      position: fixed; border-radius: 50%; z-index: 0; pointer-events: none;
+      width: 380px; height: 380px; bottom: -140px; right: -140px;
+      background: radial-gradient(circle, rgba(180,0,90,0.2), transparent 70%);
+      filter: blur(80px);
+      animation: orbMove 14s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes orbMove { 0%{transform:scale(1)} 100%{transform:scale(1.2) translate(15px,15px)} }
+
+    /* جزيئات */
+    .particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    .p { position: absolute; border-radius: 50%; background: var(--pink); opacity: 0; animation: floatUp linear infinite; }
+    .p:nth-child(1) { width:3px;height:3px;left:10%;animation-duration:8s;animation-delay:0s; }
+    .p:nth-child(2) { width:2px;height:2px;left:30%;animation-duration:11s;animation-delay:2s; }
+    .p:nth-child(3) { width:3px;height:3px;left:55%;animation-duration:9s;animation-delay:4s; }
+    .p:nth-child(4) { width:2px;height:2px;left:75%;animation-duration:12s;animation-delay:1s; }
+    .p:nth-child(5) { width:2px;height:2px;left:88%;animation-duration:7s;animation-delay:3s; }
+    @keyframes floatUp {
+      0%  { bottom:-20px; opacity:0; }
+      10% { opacity:0.7; }
+      90% { opacity:0.3; }
+      100%{ bottom:110%; opacity:0; }
+    }
+
+    /* البطاقة — كل شي يتمركز بالشاشة */
+    .card {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column;
+      align-items: center;
+      gap: clamp(10px, 2.5vh, 22px);
+      text-align: center;
+      padding: 16px 20px;
+      width: 100%;
+      max-width: 520px;
+    }
+
+    /* أيقونة TV */
+    .tv {
+      width: clamp(70px, 18vw, 95px);
+      height: clamp(70px, 18vw, 95px);
+      animation: tvGlow 3s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes tvGlow {
+      0%,100% { filter: drop-shadow(0 0 14px rgba(255,45,120,0.6)); transform: scale(1); }
+      50%      { filter: drop-shadow(0 0 36px rgba(255,45,120,1));   transform: scale(1.07); }
+    }
+
+    /* شارة مباشر */
+    .live {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 5px 18px; border-radius: 100px;
+      border: 1px solid rgba(255,79,154,0.45);
+      background: rgba(255,45,120,0.1);
+      backdrop-filter: blur(8px);
+      font-size: clamp(12px, 3vw, 14px);
+      font-weight: 700; color: #ff79b0;
+      flex-shrink: 0;
+    }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--pink-soft);
+      box-shadow: 0 0 7px var(--pink);
+      animation: blink 1s steps(1) infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* العنوان */
+    h1 {
+      font-size: clamp(1.5rem, 6vw, 3rem);
+      font-weight: 900;
+      line-height: 1.4;
+      text-shadow: 0 0 25px rgba(255,45,120,0.3);
+      flex-shrink: 0;
+    }
+    h1 span {
+      display: block;
+      background: linear-gradient(90deg, #ff2d78, #ff9abf, #c2185b, #ff2d78);
+      background-size: 250%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 3.5s linear infinite;
+    }
+    @keyframes shine { 0%{background-position:0%} 100%{background-position:250%} }
+
+    /* فاصل */
+    .divider {
+      width: 100px; height: 1.5px;
+      background: linear-gradient(90deg, transparent, var(--pink), transparent);
+      opacity: 0.5;
+      flex-shrink: 0;
+    }
+
+    /* الوصف */
+    .desc {
+      font-size: clamp(0.8rem, 3.5vw, 1rem);
+      color: rgba(255,180,210,0.8);
+      line-height: clamp(1.7, 3vh, 2.1);
+      flex-shrink: 0;
+    }
+
+    /* الزر */
+    .btn {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: clamp(13px,2.5vh,18px) clamp(28px,8vw,50px);
+      border-radius: 16px;
+      font-family: 'Cairo', sans-serif;
+      font-size: clamp(1rem, 4vw, 1.35rem);
+      font-weight: 900; color: #fff;
+      background: linear-gradient(135deg, #ff2d78, #c2185b, #ff2d78);
+      background-size: 200%;
+      border: none; cursor: pointer; text-decoration: none;
+      box-shadow: 0 0 28px rgba(255,45,120,0.5), 0 6px 28px rgba(0,0,0,0.6),
+                  inset 0 1px 0 rgba(255,255,255,0.15);
+      position: relative; overflow: hidden;
+      animation: btnGlow 2.5s ease-in-out infinite alternate;
+      flex-shrink: 0;
+    }
+    @keyframes btnGlow {
+      0%   { background-position:0%;   box-shadow: 0 0 28px rgba(255,45,120,0.5), 0 6px 28px rgba(0,0,0,0.6); }
+      100% { background-position:100%; box-shadow: 0 0 50px rgba(255,45,120,0.85),0 10px 40px rgba(0,0,0,0.7); }
+    }
+    .btn::after {
+      content:''; position:absolute; top:0; left:-80px;
+      width:60px; height:100%;
+      background: linear-gradient(90deg,transparent,rgba(255,255,255,0.22),transparent);
+      transform: skewX(-20deg);
+      animation: sweep 2.8s ease-in-out infinite;
+    }
+    @keyframes sweep { 0%{left:-80px} 100%{left:120%} }
+    .btn:hover  { transform: translateY(-4px) scale(1.04); }
+    .btn:active { transform: scale(0.97); }
+
+    /* فوتر */
+    footer {
+      position: fixed; bottom: 14px;
+      font-size: 0.74rem; color: var(--muted);
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="orb1"></div>
+<div class="orb2"></div>
+
+<div class="particles">
+  <div class="p"></div><div class="p"></div><div class="p"></div>
+  <div class="p"></div><div class="p"></div>
+</div>
+
+<div class="card">
+
+  <svg class="tv" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="pg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ff2d78"/>
+        <stop offset="100%" stop-color="#c2185b"/>
+      </linearGradient>
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="2" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <rect width="120" height="120" rx="24" fill="#1a0010"/>
+    <rect x="14" y="22" width="92" height="60" rx="10" fill="none" stroke="url(#pg)" stroke-width="3" filter="url(#glow)"/>
+    <rect x="18" y="26" width="84" height="52" rx="7" fill="#0d0009"/>
+    <polygon points="48,38 48,68 78,53" fill="url(#pg)" filter="url(#glow)"/>
+    <rect x="48" y="87" width="24" height="6" rx="3" fill="url(#pg)"/>
+    <circle cx="98" cy="30" r="5" fill="#ff4f9a" opacity="0.9"/>
+  </svg>
+
+  <div class="live"><div class="dot"></div> بث مباشر الآن</div>
+
+  <h1>مشاهدة بث <span>غير جوك TV</span></h1>
+
+  <div class="divider"></div>
+
+  <p class="desc">
+    📺 بث مباشر على مدار الساعة<br/>
+    💬 دردشة حية مع المتابعين<br/>
+    🎵 أغاني وطلبات على الهواء<br/>
+    🎤 جو عراقي أصيل ما يفوتك
+  </p>
+
+  <a class="btn" href="https://kar12.vercel.app/" target="_blank" rel="noopener">
+    ▶ لمشاهدة البث اضغط هنا
+  </a>
+
+</div>
+
+<footer>غير جوك TV © 2025</footer>
+</body>
+</html>
